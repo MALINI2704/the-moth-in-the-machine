@@ -1,0 +1,21 @@
+{
+  "name": "moth-in-the-machine",
+  "version": "1.0.0",
+  "description": "An interactive, visual debugging & code sequence learning game inspired by Grace Hopper's historic 'first actual bug in computing'.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "educational-game",
+    "debugging",
+    "coding-sequence",
+    "grace-hopper",
+    "interactive-learning",
+    "web-audio-api",
+    "html5-canvas"
+  ],
+  "author": "Internship Project",
+  "license": "MIT"
+}
