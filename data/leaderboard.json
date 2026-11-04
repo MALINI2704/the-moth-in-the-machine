@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Grace Hopper",
+    "score": 100,
+    "timeTaken": "00:54",
+    "date": "1947-09-09"
+  },
+  {
+    "name": "Ada Lovelace",
+    "score": 100,
+    "timeTaken": "01:05",
+    "date": "2026-10-12"
+  },
+  {
+    "name": "Alan Turing",
+    "score": 100,
+    "timeTaken": "01:10",
+    "date": "2026-10-24"
+  },
+  {
+    "name": "Malini.M",
+    "score": 100,
+    "timeTaken": "01:33",
+    "date": "2026-11-04"
+  }
+]

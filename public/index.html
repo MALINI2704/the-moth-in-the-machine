@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Moth in the Machine - Debug & Code Sequence Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- App Container -->
+  <div class="app-container">
+    
+    <!-- Top Header Bar -->
+    <header class="top-header">
+      <div class="brand">
+        <div class="moth-icon-wrapper" id="mothLogo" title="The historic Moth in the Machine!">
+          <svg class="moth-svg" viewBox="0 0 100 100" width="34" height="34">
+            <!-- Stylized Cute Glowing Moth -->
+            <ellipse cx="50" cy="54" rx="8" ry="20" fill="#f59e0b" />
+            <circle cx="50" cy="32" r="10" fill="#d97706" />
+            <!-- Antennae -->
+            <path d="M46 25 Q38 12 30 16" stroke="#fcd34d" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M54 25 Q62 12 70 16" stroke="#fcd34d" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="30" cy="16" r="3" fill="#fef08a" />
+            <circle cx="70" cy="16" r="3" fill="#fef08a" />
+            <!-- Glowing Wings -->
+            <path class="wing wing-left" d="M44 42 C15 15, 0 50, 42 62 Z" fill="#38bdf8" opacity="0.85"/>
+            <path class="wing wing-right" d="M56 42 C85 15, 100 50, 58 62 Z" fill="#38bdf8" opacity="0.85"/>
+            <path class="wing wing-left-sub" d="M44 58 C20 55, 10 75, 44 72 Z" fill="#818cf8" opacity="0.75"/>
+            <path class="wing wing-right-sub" d="M56 58 C80 55, 90 75, 56 72 Z" fill="#818cf8" opacity="0.75"/>
+            <!-- Eyes -->
+            <circle cx="46" cy="30" r="2.5" fill="#1e293b"/>
+            <circle cx="54" cy="30" r="2.5" fill="#1e293b"/>
+          </svg>
+        </div>
+        <h1 class="game-title">The Moth in the Machine</h1>
+      </div>
+
+      <!-- Center Status Meters -->
+      <div class="header-meters">
+        <!-- Time Meter -->
+        <div class="meter-pill time-pill" title="Time Remaining">
+          <svg class="meter-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="9"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <div class="meter-content">
+            <span class="meter-label">TIME</span>
+            <span class="meter-value" id="timeDisplay">05:00</span>
+          </div>
+        </div>
+
+        <!-- Score Meter -->
+        <div class="meter-pill score-pill" title="Current Score">
+          <svg class="meter-icon star-icon" viewBox="0 0 24 24" width="22" height="22" fill="#f59e0b" stroke="#d97706" stroke-width="1.5">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <div class="meter-content">
+            <span class="meter-label">SCORE</span>
+            <span class="meter-value" id="scoreDisplay">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Action Controls -->
+      <div class="header-actions">
+        <!-- Audio Toggle -->
+        <button class="action-btn" id="btnSound" title="Toggle Sound FX">
+          <svg id="iconSoundOn" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+          <svg id="iconSoundOff" class="hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+
+        <!-- Reset Level / Replay -->
+        <button class="action-btn" id="btnReset" title="Replay Animation">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+          </svg>
+        </button>
+
+        <!-- Code View Toggle -->
+        <button class="action-btn" id="btnCodeToggle" title="View Code Sequence">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </button>
+
+        <!-- Fullscreen -->
+        <button class="action-btn" id="btnFullscreen" title="Toggle Fullscreen">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+        </button>
+
+        <!-- Info / Grace Hopper History -->
+        <button class="action-btn" id="btnInfo" title="The Story of the Moth">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/>
+            <path d="M12 8h.01"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Top Instruction Pill / Banner -->
+    <section class="instruction-banner">
+      <div class="banner-pill">
+        <h2 class="banner-title" id="instructionTitle">Find the Bug & Fix the Code Sequence!</h2>
+        <p class="banner-hint" id="instructionHint">(Hint: Watch the animation and select what is happening!)</p>
+      </div>
+    </section>
+
+    <!-- Main Game Arena -->
+    <main class="game-arena">
+      <!-- Left Stage / Canvas Viewport -->
+      <section class="stage-container">
+        <!-- Canvas for dynamic scene animation & particles -->
+        <canvas id="gameCanvas" width="820" height="520"></canvas>
+        
+        <!-- Animated Scene Speech Bubble Overlay -->
+        <div class="scene-bubble hidden" id="sceneBubble">
+          <span id="sceneBubbleText">Dark!</span>
+        </div>
+
+        <!-- Replay trigger pill on canvas -->
+        <button class="stage-replay-pill" id="stageReplayBtn" title="Play Animation Again">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <span>Watch Again</span>
+        </button>
+      </section>
+
+      <!-- Right Interaction / Decision Control Panel -->
+      <aside class="control-panel">
+        <div class="panel-header-card">
+          <h3 class="panel-question" id="panelQuestion">What is happening?</h3>
+        </div>
+
+        <!-- 3 Interactive Action Options -->
+        <div class="options-grid" id="optionsContainer">
+          <!-- Dynamic action option buttons loaded via JS -->
+        </div>
+
+        <!-- Feedback & Explanation Card -->
+        <div class="feedback-card hidden" id="feedbackCard">
+          <div class="feedback-icon" id="feedbackIcon">💡</div>
+          <div class="feedback-text" id="feedbackMessage">Good observation!</div>
+        </div>
+
+        <!-- Continue Button (shown after successful answer) -->
+        <button class="continue-btn hidden" id="btnContinue">
+          <span>Continue</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+
+        <!-- Mini Code Preview Strip -->
+        <div class="code-preview-strip" id="codePreviewStrip">
+          <div class="strip-header">
+            <span class="strip-tag">CODE SEQUENCE</span>
+            <span class="strip-state" id="codeStateBadge">BUGGY</span>
+          </div>
+          <pre class="strip-code" id="codePreviewContent"><code>rocket.launch();
+rocket.moveForward(1);
+rocket.stop(); // &lt;-- Bug!</code></pre>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Bottom Status Bar -->
+    <footer class="bottom-status-bar">
+      <div class="status-left">
+        <span class="status-label">CURRENT SCENE</span>
+        <span class="status-value level-highlight" id="currentSceneDisplay">Level 1</span>
+      </div>
+
+      <!-- Level Progress Dots -->
+      <div class="level-progress-dots" id="levelDots">
+        <div class="dot active" data-level="1">1</div>
+        <div class="dot" data-level="2">2</div>
+        <div class="dot" data-level="3">3</div>
+        <div class="dot" data-level="4">4</div>
+      </div>
+
+      <div class="status-right">
+        <span class="status-label">PHASE</span>
+        <span class="status-value phase-highlight" id="currentPhaseDisplay">Find the bug</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Confetti Canvas (Full screen overlay) -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Lab Successfully Completed (Screenshot Match) -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop hidden" id="modalVictory">
+    <div class="victory-card">
+      <div class="badge-success-pill">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <span>LAB SUCCESSFULLY COMPLETED!</span>
+      </div>
+
+      <h2 class="victory-title">You Fixed the bugs!</h2>
+      <p class="victory-subtitle">You answered the questions and changed the code so each scene worked.</p>
+
+      <div class="victory-stats-row">
+        <!-- Time Taken Card -->
+        <div class="stat-card stat-time">
+          <div class="stat-icon-circle time-circle">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="9"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="stat-meta">
+            <span class="stat-heading">TIME TAKEN</span>
+            <span class="stat-number" id="victoryTime">01:11</span>
+          </div>
+        </div>
+
+        <!-- Score Card -->
+        <div class="stat-card stat-score">
+          <div class="stat-icon-circle star-circle">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="#f59e0b" stroke="#b45309" stroke-width="1.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="stat-meta">
+            <span class="stat-heading">SCORE</span>
+            <span class="stat-number" id="victoryScore">100 pts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player Name for Leaderboard -->
+      <div class="leaderboard-entry-row">
+        <input type="text" id="playerNameInput" placeholder="Enter your name / intern ID" maxlength="20" value="Intern Developer">
+        <button class="save-record-btn" id="btnSaveRecord">Save Score</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="victory-actions">
+        <button class="victory-btn secondary" id="btnViewCertificate">🎓 View Certificate</button>
+        <button class="victory-btn primary" id="btnPlayAgain">🔄 Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Grace Hopper & History of The Moth -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop hidden" id="modalHistory">
+    <div class="history-card">
+      <button class="modal-close-btn" id="btnCloseHistory">&times;</button>
+      
+      <div class="history-header">
+        <span class="history-badge">HISTORY OF COMPUTING</span>
+        <h2>Why is it called "The Moth in the Machine"?</h2>
+      </div>
+
+      <div class="history-body">
+        <div class="history-photo-frame">
+          <div class="logbook-page">
+            <div class="logbook-stamp">HARVARD COMPUTATION LAB • 1947</div>
+            <p class="logbook-quote">"1545 Relay #70 Panel F (moth) in relay."</p>
+            <div class="moth-tape-visual">
+              <div class="tape-strip"></div>
+              <span class="moth-specimen">🦋 [Moth Specimen]</span>
+              <div class="tape-strip"></div>
+            </div>
+            <p class="logbook-caption">"First actual case of bug being found."</p>
+          </div>
+        </div>
+
+        <div class="history-text">
+          <p>On <strong>September 9, 1947</strong>, computer scientist <strong>Grace Hopper</strong> and her team at Harvard University were working on the electromechanical <strong>Mark II computer</strong> when a relay stopped working.</p>
+          <p>When technicians investigated, they found a <strong>real moth</strong> stuck between the electrical contact points of Relay 70 in Panel F!</p>
+          <p>They carefully removed the moth with tweezers, taped it to the logbook, and wrote: <em>"First actual case of bug being found."</em></p>
+          <p>While the word "bug" had been used in engineering, Grace Hopper's story made the terms <strong>"bug"</strong> and <strong>"debugging"</strong> a universal foundation of modern software engineering.</p>
+        </div>
+      </div>
+
+      <div class="history-footer">
+        <button class="victory-btn primary" id="btnHistoryGotIt">Got It, Let's Debug!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Code Inspector Modal -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop hidden" id="modalCode">
+    <div class="code-modal-card">
+      <button class="modal-close-btn" id="btnCloseCode">&times;</button>
+      <div class="code-modal-header">
+        <h3>🔍 Code Sequence Inspector</h3>
+        <p>Compare the buggy code with the fixed version for this level.</p>
+      </div>
+      <div class="code-diff-container">
+        <div class="code-column buggy-column">
+          <div class="column-title">❌ Buggy Sequence</div>
+          <pre><code id="modalBuggyCode">// Loading...</code></pre>
+        </div>
+        <div class="code-column fixed-column">
+          <div class="column-title">✅ Fixed Sequence</div>
+          <pre><code id="modalFixedCode">// Loading...</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Certificate of Debugging Excellence -->
+  <!-- ============================================== -->
+  <div class="modal-backdrop hidden" id="modalCertificate">
+    <div class="certificate-container">
+      <button class="modal-close-btn" id="btnCloseCertificate">&times;</button>
+      <div class="cert-border" id="printableCert">
+        <div class="cert-header">
+          <div class="cert-ribbon">CERTIFICATE OF DEBUGGING EXCELLENCE</div>
+          <h1>The Moth in the Machine</h1>
+          <p class="cert-award-to">This certifies that</p>
+          <h2 class="cert-name" id="certPlayerName">Intern Developer</h2>
+          <p class="cert-desc">has successfully diagnosed code sequence flaws, resolved logic bugs across all 4 machine systems, and achieved an outstanding mastery score.</p>
+        </div>
+
+        <div class="cert-meta-row">
+          <div class="cert-meta-item">
+            <span class="meta-label">SCORE ACHIEVED</span>
+            <span class="meta-val" id="certScore">100 / 100 PTS</span>
+          </div>
+          <div class="cert-seal">
+            <div class="seal-inner">
+              <span>DEBUG</span>
+              <span class="seal-star">★ ★ ★</span>
+              <span>PASSED</span>
+            </div>
+          </div>
+          <div class="cert-meta-item">
+            <span class="meta-label">DATE VERIFIED</span>
+            <span class="meta-val" id="certDate">2026-11-04</span>
+          </div>
+        </div>
+
+        <div class="cert-footer">
+          <div class="cert-signature">
+            <div class="sig-line">Grace Hopper Heritage Lab</div>
+            <span class="sig-title">Automated Verification System</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-actions">
+        <button class="victory-btn secondary" onclick="window.print()">🖨️ Print Certificate</button>
+        <button class="victory-btn primary" id="btnCloseCertBtn">Back to Game</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

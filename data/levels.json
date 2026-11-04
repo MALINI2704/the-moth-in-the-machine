@@ -1,0 +1,181 @@
+{
+  "gameTitle": "The Moth in the Machine",
+  "subtitle": "Find the Bug & Fix the Code Sequence!",
+  "description": "An interactive computational thinking & debugging game inspired by Grace Hopper's discovery of the first computer bug in 1947.",
+  "totalScore": 100,
+  "timeLimitSeconds": 300,
+  "levels": [
+    {
+      "id": 1,
+      "levelNumber": 1,
+      "name": "Rocket Waypoints",
+      "instruction": "Find the Bug & Fix the Code Sequence!",
+      "hint": "Watch the rocket animation and select what is happening!",
+      "points": 25,
+      "phase1": {
+        "title": "What is happening?",
+        "bubbleText": null,
+        "options": [
+          { "id": "repeat", "label": "Repeat", "icon": "repeat", "isBug": false },
+          { "id": "move", "label": "Move", "icon": "arrow-right", "isBug": false },
+          { "id": "stop", "label": "Stop", "icon": "stop", "isBug": true, "correctExplanation": "The rocket stopped prematurely at waypoint 1 instead of reaching the Star!" }
+        ]
+      },
+      "phase2": {
+        "title": "How do we fix it?",
+        "bubbleText": "Stuck at 1!",
+        "options": [
+          { "id": "repeat_3", "label": "Repeat 3 Times", "icon": "repeat", "isFix": true, "correctExplanation": "Awesome! Repeating the move forward step 3 times lets the rocket reach waypoints 1, 2, 3, and the golden star!" },
+          { "id": "turn_back", "label": "Turn Back", "icon": "rotate-left", "isFix": false, "explanation": "Turning back won't help the rocket reach the star ahead." },
+          { "id": "stop_rocket", "label": "Stop Rocket", "icon": "stop", "isFix": false, "explanation": "Stopping won't get the rocket to the finish line!" }
+        ]
+      },
+      "codeSnippet": {
+        "buggy": [
+          "// Buggy Sequence",
+          "rocket.launch();",
+          "rocket.moveForward(1); // Stuck at waypoint 1!",
+          "rocket.stop();"
+        ],
+        "fixed": [
+          "// Fixed Sequence with Loop",
+          "rocket.launch();",
+          "for (let step = 1; step <= 3; step++) {",
+          "  rocket.moveToWaypoint(step);",
+          "}",
+          "rocket.collectStar();"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "levelNumber": 2,
+      "name": "Lamp Circuit",
+      "instruction": "Find the Bug & Fix the Code Sequence!",
+      "hint": "Watch the circuit animation and select what is happening!",
+      "points": 25,
+      "phase1": {
+        "title": "What is happening?",
+        "bubbleText": "Dark!",
+        "options": [
+          { "id": "switch", "label": "Switch", "icon": "toggle", "isBug": true, "correctExplanation": "The switch is in the OFF state, breaking the circuit so no electrical current reaches the lamp!" },
+          { "id": "lamp", "label": "Lamp", "icon": "bulb", "isBug": false },
+          { "id": "power", "label": "Power", "icon": "zap", "isBug": false }
+        ]
+      },
+      "phase2": {
+        "title": "How do we fix it?",
+        "bubbleText": "Dark!",
+        "options": [
+          { "id": "switch_on", "label": "Switch ON", "icon": "toggle", "isFix": true, "correctExplanation": "Bingo! Flipping the switch to ON completes the circuit and energizes the lamp!" },
+          { "id": "change_lamp", "label": "Change Lamp", "icon": "bulb", "isFix": false, "explanation": "The lamp isn't broken—it just lacks electrical power because the switch is open." },
+          { "id": "more_power", "label": "Boost Voltage", "icon": "zap", "isFix": false, "explanation": "Increasing power won't work if the switch is in the OFF position." }
+        ]
+      },
+      "codeSnippet": {
+        "buggy": [
+          "// Buggy Circuit Logic",
+          "let circuitState = 'OFF';",
+          "if (circuitState === 'ON') {",
+          "  lamp.turnOn();",
+          "} else {",
+          "  lamp.remainDark(); // Bug: Switch is OFF!",
+          "}"
+        ],
+        "fixed": [
+          "// Fixed Circuit Logic",
+          "let circuitState = 'ON'; // Switch toggled!",
+          "if (circuitState === 'ON') {",
+          "  power.flowThroughWire();",
+          "  lamp.illuminate(100);",
+          "}"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "levelNumber": 3,
+      "name": "Fork in the Path",
+      "instruction": "Find the Bug & Fix the Code Sequence!",
+      "hint": "Watch the character animation and select what is happening!",
+      "points": 25,
+      "phase1": {
+        "title": "What is happening?",
+        "bubbleText": null,
+        "options": [
+          { "id": "move_forward", "label": "Move Forward", "icon": "arrow-up", "isBug": true, "correctExplanation": "The character continued moving straight ahead into empty dead space instead of taking the turn!" },
+          { "id": "turn_left", "label": "Turn Left", "icon": "arrow-left", "isBug": false },
+          { "id": "pick_gift", "label": "Pick Gift", "icon": "gift", "isBug": false }
+        ]
+      },
+      "phase2": {
+        "title": "How do we fix it?",
+        "bubbleText": "Empty!",
+        "options": [
+          { "id": "turn_left", "label": "Turn Left", "icon": "arrow-left", "isFix": true, "correctExplanation": "Excellent direction! Turning left steers the character down the path directly to the mystery gift box!" },
+          { "id": "turn_right", "label": "Turn Right", "icon": "arrow-right", "isFix": false, "explanation": "Turning right leads towards the toys, but our primary mission target is the gift box!" },
+          { "id": "turn_around", "label": "Turn Around", "icon": "repeat", "isFix": false, "explanation": "Turning around walks back to the starting point instead of progressing to the gift!" }
+        ]
+      },
+      "codeSnippet": {
+        "buggy": [
+          "// Buggy Navigation",
+          "character.walkTo(Junction);",
+          "character.moveForward(); // Walked off into empty space!",
+          "character.lookForGift(); // Result: Empty!"
+        ],
+        "fixed": [
+          "// Fixed Conditional Navigation",
+          "character.walkTo(Junction);",
+          "character.turnLeft(); // Correct branch",
+          "character.walkTo(GiftBox);",
+          "character.openGift(); // Success!"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "levelNumber": 4,
+      "name": "Stamper Machine Loop",
+      "instruction": "Find the Bug & Fix the Code Sequence!",
+      "hint": "Watch the stamper animation and select what is happening!",
+      "points": 25,
+      "phase1": {
+        "title": "What is happening?",
+        "bubbleText": null,
+        "options": [
+          { "id": "repeat", "label": "Repeat", "icon": "repeat", "isBug": false },
+          { "id": "stamp", "label": "Stamp", "icon": "arrow-down", "isBug": false },
+          { "id": "end", "label": "End", "icon": "stop", "isBug": true, "correctExplanation": "The stamping loop stopped prematurely after only 2 stamps! It suffered an off-by-one loop error." }
+        ]
+      },
+      "phase2": {
+        "title": "How do we fix it?",
+        "bubbleText": "Need 1 more!",
+        "options": [
+          { "id": "repeat_1", "label": "Repeat 1", "icon": "corner-down-right", "isFix": true, "correctExplanation": "Perfect! Adding 1 more repetition completes the required quota of 3 stamped items!" },
+          { "id": "repeat_3", "label": "Repeat 3", "icon": "repeat", "isFix": false, "explanation": "Repeating 3 more times would over-stamp the batch (5 total)!" },
+          { "id": "repeat_forever", "label": "Repeat Forever", "icon": "repeat", "isFix": false, "explanation": "Repeating forever creates an infinite loop and crashes the machine!" }
+        ]
+      },
+      "codeSnippet": {
+        "buggy": [
+          "// Buggy Loop Counter (Off-by-one)",
+          "let targetStamps = 3;",
+          "for (let count = 0; count < 2; count++) {",
+          "  machine.stamp();",
+          "}",
+          "// Stopped early: Need 1 more!"
+        ],
+        "fixed": [
+          "// Fixed Loop Counter",
+          "let targetStamps = 3;",
+          "for (let count = 0; count < targetStamps; count++) {",
+          "  machine.stamp();",
+          "}",
+          "machine.completeBatch(); // 100% finished!"
+        ]
+      }
+    }
+  ]
+}
